@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{{invoice.number}}
+
+{% for product in products %}
+    {{product.priceHT}}
+{% endfor %}
+<section class="formSection">
+    <div class="form">
+        <h1 class="formTitle"></h1>
+        <div class="line">
+            {{ form_start(form) }}
+            {{ form_row(form.product, {'attr':{'placeholder':'Numéro de TVA'}}) }}
+            {{ form_row(form.color, {'attr':{'placeholder':'Numéro de TVA'}}) }}
+            {{ form_row(form.size, {'attr':{'placeholder':'Numéro de TVA'}}) }}
+            {{ form_row(form.quantity, {'attr':{'placeholder':'Numéro'}}) }}
+            {{ form_row(form.priceHT, {'attr':{'placeholder':'Numéro de TVA'}}) }}
+
+        </div>
+        <div class="line">
+            
+        </div>
+        <br>
+        <div class="btn">
+            <button type="submit">Ajouter</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</section>
+{% endblock %}

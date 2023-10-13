@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SupplierController!{% endblock %}
+
+{% block body %}
+<a href="{{path('newSupplier')}}">Add Supplier</a>
+
+Suppliers : 
+{% for supplier in suppliers %}
+    {{supplier.name}}
+{% endfor %}
+{% endblock %}

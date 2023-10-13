@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+Create new Invoice
+<section class="formSection">
+    <div class="form">
+        <h1 class="formTitle"></h1>
+        <div class="line">
+            {{ form_start(form) }}
+            {{ form_row(form.number, {'attr':{'placeholder':'Numéro'}}) }}
+            {{ form_row(form.supplier, {'attr':{'placeholder':'Numéro de TVA'}}) }}
+            {{ form_row(form.billingAddress, {'attr':{'placeholder':'Numéro de TVA'}}) }}
+            {{ form_row(form.deliveryAddress, {'attr':{'placeholder':'Numéro de TVA'}}) }}
+
+        </div>
+        <div class="line">
+            
+        </div>
+        <br>
+        <div class="btn">
+            <button type="submit">Ajouter</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</section>
+{% endblock %}

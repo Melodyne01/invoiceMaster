@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AddresseController!{% endblock %}
+
+{% block body %}
+Add one product
+<section class="formSection">
+    <div class="form">
+        <h1 class="formTitle"></h1>
+        <div class="line">
+            {{ form_start(form) }}
+            {{ form_row(form.name, {'attr':{'placeholder':'Nom'}}) }}
+            {{ form_row(form.vat, {'attr':{'placeholder':'Numéro de TVA'}}) }}
+
+        </div>
+        <div class="line">
+            {{ form_start(addressForm) }}
+            {{ form_row(addressForm.street, {'attr':{'placeholder':'Rue'}}) }}
+            {{ form_row(addressForm.zipCode, {'attr':{'placeholder':'Code postal'}}) }}
+            {{ form_row(addressForm.city, {'attr':{'placeholder':'Ville'}}) }}
+            {{ form_row(addressForm.streetSupplement, {'attr':{'placeholder':'Complément'}}) }}
+            {{ form_row(addressForm.country, {'attr':{'placeholder':'Pays'}}) }}
+
+        </div>
+        <br>
+        <div class="btn">
+            <button type="submit">Ajouter</button>
+        </div>
+        {{ form_end(form) }}
+
+        {{ form_end(addressForm) }}
+
+    </div>
+</section>
+{% endblock %}

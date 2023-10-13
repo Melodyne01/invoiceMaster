@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<a href="{{path('newInvoice')}}">Add invoice</a>
+
+Invoices : 
+{% for invoice in invoices %}
+    <a href="{{path('invoice', {id:invoice.id})}}">{{invoice.number}}</a>
+{% endfor %}
+{% endblock %}

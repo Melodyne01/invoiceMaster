@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!{% endblock %}
+
+{% block body %}
+Add one product
+<section class="formSection">
+    <div class="form">
+        <h1 class="formTitle"></h1>
+        {{ form_start(form) }}
+        <div class="line">
+            {{ form_row(form.name, {'attr':{'placeholder':'Nom'}}) }}
+        </div>
+        <br>
+        <div class="btn">
+            <button type="submit">Ajouter</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</section>
+{% endblock %}
