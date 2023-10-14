@@ -7,6 +7,6 @@
 
 Suppliers : 
 {% for supplier in suppliers %}
-    {{supplier.name}}
+    <a href="{{path('supplier', {id:supplier.id})}}">{{supplier.name}}</a>
 {% endfor %}
 {% endblock %}

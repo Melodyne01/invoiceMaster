@@ -45,9 +45,12 @@ class InvoiceController extends AbstractController
             "form" => $form->createView()
         ]);
     }
+    
     #[Route('/invoice/{id}', name: 'invoice')]
-    public function invoice(Request $request, ManagerRegistry $manager, Invoice $invoice, ProductInvoiceRepository $productInvoiceRepo): Response
+    public function invoice(Invoice $invoice, Request $request, ManagerRegistry $manager, ProductInvoiceRepository $productInvoiceRepo): Response
     {
+        $totalPrice = 0;
+
         $productInvoice = new ProductInvoice();
 
         $form = $this->createForm(CreateProductInvoiceType::class, $productInvoice);
@@ -55,8 +58,14 @@ class InvoiceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $products = $productInvoiceRepo->findAllByInvoice($invoice);
+            foreach ($products as $product){
+                $totalPrice += ($product->getPriceHT()*$product->getQuantity());
+            }
+            $invoice->setPriceHT($totalPrice+($productInvoice->getPriceHT()*$productInvoice->getQuantity()));
+            $productInvoice->setInvoice($invoice);
             $manager->getManager()->persist($productInvoice);
+            $manager->getManager()->persist($invoice);
             $manager->getManager()->flush();
 
             $this->addFlash("success", "La facture à bien été ajouté");
@@ -72,6 +81,38 @@ class InvoiceController extends AbstractController
             'invoice' => $invoice,
             'products' => $products,
             'form' => $form->createView()
+           
+        ]);
+    }
+
+    #[Route('/invoiceProduct/{id}', name: 'invoiceProduct')]
+    public function invoiceProduct(Request $request, ManagerRegistry $manager, ProductInvoice $productInvoice, ProductInvoiceRepository $productInvoiceRepo): Response
+    {
+        $totalPrice = 0;
+
+        $form = $this->createForm(CreateProductInvoiceType::class, $productInvoice);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $products = $productInvoiceRepo->findAllByInvoice($productInvoice->getInvoice());
+            foreach ($products as $product){
+                $totalPrice += ($product->getPriceHT()*$product->getQuantity());
+            }
+            $invoice = $productInvoice->getInvoice();
+            $invoice->setPriceHT($totalPrice);
+            $manager->getManager()->persist($productInvoice);
+            $manager->getManager()->persist($invoice);
+            $manager->getManager()->flush();
+
+            $this->addFlash("success", "La facture à bien été ajouté");
+            return $this->redirectToRoute('invoice',[
+                'id' => $productInvoice->getInvoice()->getId()
+            ]);
+        }
+        return $this->render('invoice/invoiceProduct.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

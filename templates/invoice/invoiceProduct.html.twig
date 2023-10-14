@@ -1,19 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductController!{% endblock %}
-
 {% block stylesheets %}
 <link href="{{ asset('css/form.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block body %}
-Add one product
 <section class="formSection">
     <div class="form">
         <h1 class="formTitle"></h1>
-        {{ form_start(form) }}
         <div class="line">
-            {{ form_row(form.name, {'attr':{'placeholder':'Nom'}}) }}
+            {{ form_start(form) }}
+            {{ form_row(form.product, {'attr':{'placeholder':'Numéro de TVA'}}) }}
+            {{ form_row(form.color, {'attr':{'placeholder':'Numéro de TVA'}}) }}
+            {{ form_row(form.size, {'attr':{'placeholder':'Numéro de TVA'}}) }}
+            {{ form_row(form.quantity, {'attr':{'placeholder':'Numéro'}}) }}
+            {{ form_row(form.priceHT, {'attr':{'placeholder':'Numéro de TVA'}}) }}
         </div>
         <br>
         <div class="btn">

@@ -3,9 +3,9 @@
 {% block title %}Hello StockController!{% endblock %}
 
 {% block body %}
-My stock
-{% for product in products %}
+{{product}} - {{color}}
+{% for pr in productStock %}
 <br>
-    <a href="{{path('stockProduct', {product:product.id})}}">{{product.0}}</a>
+    {{pr.size}} - {{pr.number}}
 {% endfor %}
 {% endblock %}

@@ -2,13 +2,16 @@
 
 namespace App\Form;
 
+use App\Entity\Product;
 use App\Entity\ProductInvoice;
+use App\Repository\ProductRepository;
+use Doctrine\DBAL\Types\FloatType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Doctrine\DBAL\Types\FloatType;
 
 class CreateProductInvoiceType extends AbstractType
 {
@@ -26,6 +29,14 @@ class CreateProductInvoiceType extends AbstractType
                     'XL' => 'XL',
                     'XXL' => 'XXL',
                     'XXXL' => 'XXXL',
+                    '04' => '04',
+                    '06' => '06',
+                    '08' => '08',
+                    '10' => '10',
+                    '12' => '12',
+                    '39/42' => '39/42',
+                    '40/44' => '40/44',
+                    '43/46' => '43/46',
                     '/' => '/',
                 ],
 
@@ -50,8 +61,16 @@ class CreateProductInvoiceType extends AbstractType
                     'Vert' => 'Vert',
                 ],
             ])
-            ->add('product')
-            ->add('invoice')
+            ->add('product', EntityType::class, [
+                'required' => true,
+                'class' => Product::class,
+                'query_builder' => function (ProductRepository $pr) {
+                    return $pr->createQueryBuilder('p')
+                        ->orderBy('p.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'label' => false
+            ])
         ;
     }
 

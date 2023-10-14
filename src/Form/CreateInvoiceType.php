@@ -16,6 +16,7 @@ class CreateInvoiceType extends AbstractType
             ->add('supplier')
             ->add('billingAddress')
             ->add('deliveryAddress')
+            ->add('date')
         ;
     }
 

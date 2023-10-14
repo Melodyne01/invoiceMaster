@@ -6,7 +6,9 @@
 <a href="{{path('newProduct')}}">Add Product</a>
 
 Products : 
+<br>
 {% for product in products %}
     {{product.name}}
+    <br>
 {% endfor %}
 {% endblock %}

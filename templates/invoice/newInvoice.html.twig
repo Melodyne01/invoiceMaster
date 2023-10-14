@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+<link href="{{ asset('css/form.css') }}" rel="stylesheet" />
+{% endblock %}
+
 {% block body %}
 Create new Invoice
 <section class="formSection">
@@ -8,13 +12,9 @@ Create new Invoice
         <div class="line">
             {{ form_start(form) }}
             {{ form_row(form.number, {'attr':{'placeholder':'Numéro'}}) }}
-            {{ form_row(form.supplier, {'attr':{'placeholder':'Numéro de TVA'}}) }}
-            {{ form_row(form.billingAddress, {'attr':{'placeholder':'Numéro de TVA'}}) }}
-            {{ form_row(form.deliveryAddress, {'attr':{'placeholder':'Numéro de TVA'}}) }}
-
-        </div>
-        <div class="line">
-            
+            {{ form_row(form.supplier, {'attr':{'placeholder':'Fournisseur'}}) }}
+            {{ form_row(form.billingAddress, {'attr':{'placeholder':'Adresse de facturation'}}) }}
+            {{ form_row(form.deliveryAddress, {'attr':{'placeholder':'Adresse de livraison'}}) }}
         </div>
         <br>
         <div class="btn">

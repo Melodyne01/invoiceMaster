@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Invoice;
+use App\Entity\Product;
 use App\Entity\ProductInvoice;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -45,4 +47,47 @@ class ProductInvoiceRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findAllOccurrencesByProduct(?int $limit = null)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->leftJoin('p.product', 'pr')
+            ->addSelect('pr')
+            ->select('pr.id, p, COUNT(p.product) AS number')
+            ->groupBy('p.product');
+            if($limit){
+                $query->setMaxResults($limit);
+            };
+        return $query->getQuery()
+            ->getResult();
+    }
+
+    public function findAllByProduct(Product $product, ?int $limit = null)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->andWhere('p.product = :pr')
+            ->setParameter('pr', $product)
+            ->groupBy('p.color');
+
+            if($limit){
+                $query->setMaxResults($limit);
+            };
+        return $query->getQuery()
+            ->getResult();
+    }
+    public function findAllByProductAndColor(Product $product, string $color, ?int $limit = null)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->andWhere('p.product = :pr')
+            ->setParameter('pr', $product)
+            ->andWhere('p.color = :color')
+            ->setParameter('color', $color)
+            ->select('p.size, SUM(p.quantity) AS number')
+            ->groupBy('p.size');
+
+            if($limit){
+                $query->setMaxResults($limit);
+            };
+        return $query->getQuery()
+            ->getResult();
+    }
 }

@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello StockController!{% endblock %}
+
+{% block body %}
+{{product}}
+{% for pr in productStock %}
+    <a href="{{path('stockProductColor', {product:product.id, color:pr.color})}}">{{pr.color}}</a>
+{% endfor %}
+{% endblock %}

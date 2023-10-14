@@ -22,7 +22,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/categories/new', name: 'newCategory')]
+    #[Route('/category/new', name: 'newCategory')]
     public function newCategory(Request $request, ManagerRegistry $manager): Response
     {
         $category = new Category();
@@ -45,11 +45,24 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/category/{id}', name: 'app_category')]
-    public function category(Category $category): Response
+    #[Route('/category/{id}', name: 'category')]
+    public function category(Category $category, Request $request, ManagerRegistry $manager): Response
     {
-        return $this->render('category/index.html.twig', [
-            'controller_name' => 'CategoryController',
+        $form = $this->createForm(CreateCategoryType::class, $category);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $manager->getManager()->persist($category);
+            $manager->getManager()->flush();
+
+            $this->addFlash("success", "Le produit à bien été modifié");
+            return $this->redirectToRoute('categories');
+        }
+
+        return $this->render('category/category.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

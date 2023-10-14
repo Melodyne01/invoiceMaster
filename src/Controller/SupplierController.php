@@ -49,9 +49,30 @@ class SupplierController extends AbstractController
             $this->addFlash("success", "Le produit à bien été ajouté");
             return $this->redirectToRoute('suppliers');
         }
+
+        return $this->render('supplier/newSupplier.html.twig', [
+            "form" => $form->createView(),
+            "addressForm" => $addressForm->createView()
+        ]);
+    }
+
+    #[Route('/supplier/{id}', name: 'supplier')]
+    public function Supplier(Supplier $supplier, Request $request, ManagerRegistry $manager): Response
+    {
         
-        if ($addressForm->isSubmitted() && $addressForm->isValid()) {
-            var_dump($address, $supplier);
+        $form = $this->createForm(CreateSupplierType::class, $supplier);
+
+        $form->handleRequest($request);
+
+        $address = $supplier->getAddress();
+        $addressForm = $this->createForm(CreateAddressType::class, $address);
+
+        $addressForm->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $supplier->setAddress($address);
+            $manager->getManager()->persist($address);
             $manager->getManager()->persist($supplier);
             $manager->getManager()->flush();
 
